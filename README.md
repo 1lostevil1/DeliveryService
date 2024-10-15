@@ -86,5 +86,6 @@
 
  --- 
  # БАЗА ДАННЫХ
-![image](https://github.com/user-attachments/assets/3c3ca0ca-dec8-4bca-9d99-f1db45fd8db2)
+![image](https://github.com/user-attachments/assets/f6e0b978-fbf8-4792-9d60-65b8a2128973)
+
 
