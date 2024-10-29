@@ -1,13 +1,13 @@
-﻿namespace DeliveryServiceDataAccess.Entities;
+﻿using System.Linq.Expressions;
 
-public interface IRepository<T> where T: BaseEntity
+namespace DeliveryServiceDataAccess.Entities;
+
+public interface IRepository<T> where T : BaseEntity
 {
-    IQueryable<T> GetAllProducts();
-    IQueryable<T> GetAllOrders();
-    T? GetProductById(int id);
-    T? GetOrderById(Guid id);
-    T SaveProduct(T entity);
-    T SaveOrder(T entity);
-    T saveUser(T entity);
+    IQueryable<T> GetAll();
+    IQueryable<T> GetAll(Expression<Func<T, bool>> predicate);
+    T? GetById(int id);
+    T? GetById(Guid id);
+    T Save(T entity);
     void Delete(T entity);
 }
