@@ -3,11 +3,15 @@
 namespace DeliveryServiceDataAccess.Entities;
 
 [Table("users")]
-public class DeliveryMan : User
+public class DeliveryMan : BaseEntity
 {
-    [Column("is_available")]
+    public string Name { get; set; }
+    public string Surname { get; set; }
+    public long Phone { get; set; }
+    public string PasswordHash { get; set; }
+    public string EMail { get; set; }
     public bool IsAvailable { get; set; }
-
-    [Column("rating")]
     public int Rating { get; set; }
+    
+    public ICollection<Order>? Orders { get; set; }
 }

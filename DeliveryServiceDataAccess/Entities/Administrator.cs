@@ -3,12 +3,14 @@
 namespace DeliveryServiceDataAccess.Entities;
 
 
-[Table("users")]
-public class Administrator : User
+[Table("Admitistrator")]
+public class Administrator : BaseEntity
 {
-    [Column("admin_level")]
+    public string Name { get; set; }
+    public string Surname { get; set; }
+    public long Phone { get; set; }
+    public string PasswordHash { get; set; }
+    public string EMail { get; set; }
     public string AdminLevel { get; set; }
-
-    [Column("department")]
     public string Department { get; set; }
 }
