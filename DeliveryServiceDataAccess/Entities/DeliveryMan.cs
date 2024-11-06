@@ -2,7 +2,7 @@
 
 namespace DeliveryServiceDataAccess.Entities;
 
-[Table("users")]
+[Table("DeliveryMan")]
 public class DeliveryMan : BaseEntity
 {
     public string Name { get; set; }

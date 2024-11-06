@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DeliveryServiceDataAccess.Entities;
 
-[Table("products")]
+[Table("Product")]
 public class Product : BaseEntity
 {
     

@@ -1,5 +1,7 @@
-﻿namespace DeliveryServiceDataAccess.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+namespace DeliveryServiceDataAccess.Entities;
 
+[Table("OrderProduct")]
 public class OrderProduct : BaseEntity
 {
     public int OrderId { get; set; }

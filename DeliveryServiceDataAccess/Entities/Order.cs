@@ -1,5 +1,7 @@
-﻿namespace DeliveryServiceDataAccess.Entities;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+namespace DeliveryServiceDataAccess.Entities;
 
+[Table("Order")]
 public class Order : BaseEntity
 {
 
