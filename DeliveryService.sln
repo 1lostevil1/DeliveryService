@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeliveryServiceWeb", "Deliv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeliveryServiceDataAccess", "DeliveryServiceDataAccess\DeliveryServiceDataAccess.csproj", "{A7FAB2E4-594A-4E86-A9C2-913CC907AC06}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeliveryServiceBL", "DeliveryServiceBL\DeliveryServiceBL.csproj", "{597C020C-1A91-4AE3-994E-2A933CC3A631}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{A7FAB2E4-594A-4E86-A9C2-913CC907AC06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7FAB2E4-594A-4E86-A9C2-913CC907AC06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7FAB2E4-594A-4E86-A9C2-913CC907AC06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{597C020C-1A91-4AE3-994E-2A933CC3A631}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{597C020C-1A91-4AE3-994E-2A933CC3A631}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{597C020C-1A91-4AE3-994E-2A933CC3A631}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{597C020C-1A91-4AE3-994E-2A933CC3A631}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
