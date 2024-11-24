@@ -1,61 +1,67 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace DeliveryServiceDataAccess.Entities;
 
 public class Repository<T> : IRepository<T> where T : BaseEntity
 {
+    private readonly IDbContextFactory<DbContext> _contextFactory;
+
     public Repository(IDbContextFactory<DbContext> contextFactory)
     {
         _contextFactory = contextFactory;
     }
 
-    public IQueryable<T> GetAll()
+    public IEnumerable<T> GetAll()
     {
-        using var context = _contextFactory.CreateDbContext();
-        return context.Set<T>();
+        using var dbContext = _contextFactory.CreateDbContext();
+        return dbContext.Set<T>().ToList();
+    }
+
+    public IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate)
+    {
+        using var dbContext = _contextFactory.CreateDbContext();
+        return dbContext.Set<T>().Where(predicate).ToList();
     }
 
     public T? GetById(int id)
     {
-        using var context = _contextFactory.CreateDbContext();
-        return context.Set<T>().FirstOrDefault(x => x.Id == id);
+        using var dbContext = _contextFactory.CreateDbContext();
+        return dbContext.Set<T>().FirstOrDefault(e => e.Id == id);
     }
 
     public T? GetById(Guid id)
     {
-        using var context = _contextFactory.CreateDbContext();
-        return context.Set<T>().FirstOrDefault(x => x.ExternalId == id);
+        using var dbContext = _contextFactory.CreateDbContext();
+        return dbContext.Set<T>().FirstOrDefault(e => e.ExternalId == id);
     }
 
     public T Save(T entity)
     {
-        using var context = _contextFactory.CreateDbContext();
-        if (context.Set<T>().Any(x => x.Id == entity.Id))
+        using var dbContext = _contextFactory.CreateDbContext();
+        if (dbContext.Set<T>().AsNoTracking().FirstOrDefault(e => e.Id == entity.Id) == null)
         {
+            entity.ExternalId = Guid.NewGuid();
+            entity.CreationTime = DateTime.UtcNow;
             entity.ModificationTime = DateTime.UtcNow;
-            var result = context.Set<T>().Attach(entity);
-            context.Entry(entity).State = EntityState.Modified;
-            context.SaveChanges();
+            var result = dbContext.Set<T>().Add(entity);
+            dbContext.SaveChanges();
             return result.Entity;
         }
         else
         {
-            entity.ExternalId = Guid.NewGuid();
-            entity.CreationTime = DateTime.UtcNow;
-            entity.ModificationTime = entity.CreationTime;
-            var result = context.Set<T>().Add(entity);
-            context.SaveChanges();
+            entity.ModificationTime = DateTime.UtcNow;
+            var result = dbContext.Set<T>().Attach(entity);
+            dbContext.Entry(entity).State = EntityState.Modified;
+            dbContext.SaveChanges();
             return result.Entity;
         }
     }
 
     public void Delete(T entity)
     {
-        using var context = _contextFactory.CreateDbContext();
-        context.Set<T>().Attach(entity);
-        context.Entry(entity).State = EntityState.Deleted;
-        context.SaveChanges();
+        using var dbContext = _contextFactory.CreateDbContext();
+        dbContext.Set<T>().Remove(entity);
+        dbContext.SaveChanges();
     }
-
-    private readonly IDbContextFactory<DbContext> _contextFactory;
 }

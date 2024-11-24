@@ -4,7 +4,7 @@ namespace DeliveryServiceWeb.Service.IoC;
 
 public static class SerilogConfigurator
 {
-    public static void ConfigureService(WebApplicationBuilder builder)
+    public static void ConfigureServices(WebApplicationBuilder builder)
     {
         builder.Host.UseSerilog((context, loggerConfiguration) =>
         {
@@ -16,7 +16,7 @@ public static class SerilogConfigurator
         builder.Services.AddHttpContextAccessor();
     }
 
-    public static void ConfigureApplication(IApplicationBuilder app)
+    public static void ConfigureApplication(WebApplication app)
     {
         app.UseSerilogRequestLogging();
     }

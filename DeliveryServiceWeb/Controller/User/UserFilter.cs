@@ -1,24 +1,12 @@
-﻿namespace DeliveryServiceDL.Entity;
+﻿namespace DeliveryServiceWeb.Controller.User;
 
-public class FilterUserModel
-
+public class UserFilter
 {
-
-    public string? LoginPart { get; set; }
-
     public string? NamePart { get; set; }
-
     public string? PhoneNumberPart { get; set; }
-
     public string? EmailPart { get; set; }
-
-
-
-
-    public DateTime? CreationTime { get; set; }
-
-    public DateTime? ModificationTime { get; set; }
-
     
+    public DateTime? CreationTime { get; set; }
+    public DateTime? ModificationTime { get; set; }
 
 }

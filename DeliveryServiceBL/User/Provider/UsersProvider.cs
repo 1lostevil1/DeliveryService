@@ -32,8 +32,7 @@ public class UsersProvider : IUsersProvider
     public IEnumerable<UserModel> GetUsers(FilterUserModel filter = null)
 
     {
-
-        string? loginPart = filter?.LoginPart;
+        
 
         string? namePart = filter?.NamePart;
 
@@ -44,28 +43,24 @@ public class UsersProvider : IUsersProvider
         DateTime? creationTime = filter?.CreationTime;
 
         DateTime? modificationTime = filter?.ModificationTime;
-
-        int? permission = filter?.Permission;
+        
 
 
 
 
         var users = _userRepository.GetAll(u =>
+            
 
-            (loginPart == null || u.Login == loginPart) &&
+            (namePart == null || u.Name.Contains(namePart)) &&
 
-            (namePart == null || u.FullName.Contains(namePart)) &&
+            (phoneNumberPart == null || u.Phone.Contains(phoneNumberPart)) &&
 
-            (phoneNumberPart == null || u.PhoneNumber.Contains(phoneNumberPart)) &&
-
-            (emailPart == null || u.Email.Contains(emailPart)) &&
+            (emailPart == null || u.EMail.Contains(emailPart)) &&
 
             (creationTime == null || u.CreationTime == creationTime) &&
 
-            (modificationTime == null || u.ModificationTime == modificationTime) &&
-
-            (permission == null || u.Permission.Id == permission)
-
+            (modificationTime == null || u.ModificationTime == modificationTime) 
+            
         );
 
         return _mapper.Map<IEnumerable<UserModel>>(users);

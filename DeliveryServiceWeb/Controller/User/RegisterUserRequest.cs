@@ -1,10 +1,9 @@
-﻿namespace DeliveryServiceDL.Entity;
+﻿namespace DeliveryServiceWeb.Controller.User;
 
-public class CreateUserModel
+public class RegisterUserRequest
 {
-    public string Login { get; set; }
     public string PasswordHash { get; set; }
-
+    
     public string PhoneNumber { get; set; }
     public string Email { get; set; }
 

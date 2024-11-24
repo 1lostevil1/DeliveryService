@@ -15,35 +15,57 @@ public class UsersManager : IUsersManager
         _usersRepository = usersRepository;
         _mapper = mapper;
     }
-
+    
     public UserModel CreateUser(CreateUserModel createModel)
     {
-        //validation
-
         var entity = _mapper.Map<DeliveryServiceDataAccess.Entities.User>(createModel);
-        entity = _usersRepository.Save(entity);
-        return _mapper.Map<UserModel>(entity);
+        try
+        {
+            entity = _usersRepository.Save(entity);
+            return _mapper.Map<UserModel>(entity);
+        }
+        catch (Exception e)
+        {
+            throw new UserAlreadyExistsException("Пользователь с такими данными уже существует");
+        }
     }
 
     public void DeleteUser(int id)
     {
+        var entity = _usersRepository.GetById(id);
+        if (entity is null)
+            throw new UserNotFoundException("Такого пользователя не существует");
+        
+        _usersRepository.Delete(entity);
+    }
+
+    public UserModel UpdateUser(int id, UpdateUserModel updateModel)
+    {
+        var entity = _usersRepository.GetById(id);
+        if (entity is null)
+            throw new UserNotFoundException("Такого пользователя не существует");
+        
+        entity = _mapper.Map<UpdateUserModel, DeliveryServiceDataAccess.Entities.User>(updateModel, opts => opts.AfterMap(
+            (src, dest) =>
+            {
+                dest.Id = entity.Id;
+                dest.ExternalId = entity.ExternalId;
+                dest.CreationTime = entity.CreationTime;
+                dest.ModificationTime = entity.ModificationTime;
+
+                dest.Phone= src.PhoneNumber == null ? entity.Phone : dest.Phone;
+                dest.EMail= src.Email == null ? entity.EMail : dest.EMail;
+                dest.Name = src.Name == null ? entity.Name : dest.Name;
+                dest.Surname = src.SurName == null ? entity.Surname : dest.Name;
+            }));
         try
         {
-            var entity = _usersRepository.GetById(id);
-            _usersRepository.Delete(entity);
+            entity = _usersRepository.Save(entity);
+            return _mapper.Map<UserModel>(entity);
         }
         catch (Exception e)
         {
-            throw new UserNotFoundException(e.Message);
+            throw new UserAlreadyExistsException("Пользователь с такими данными уже существует");
         }
-    }
-
-    public UserModel UpdateUser(UpdateUserModel updateModel)
-    {
-        //validation
-
-        var entity = _mapper.Map<DeliveryServiceDataAccess.Entities.User>(updateModel);
-        entity = _usersRepository.Save(entity);
-        return _mapper.Map<UserModel>(entity);
     }
 }
