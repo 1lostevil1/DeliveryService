@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using DeliveryServiceBL.Exceptions.UsersExceptions;
 using DeliveryServiceDataAccess.Entities;
 using DeliveryServiceDL.Entity;
-using DeliveryServiceDL.User.Exceptions;
 
 namespace DeliveryServiceBL.User.Provider;
 

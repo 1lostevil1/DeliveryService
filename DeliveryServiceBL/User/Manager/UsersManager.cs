@@ -1,21 +1,44 @@
 ﻿using AutoMapper;
+using DeliveryServiceBL.Exceptions.PermissionsExceptions;
+using DeliveryServiceBL.Exceptions.UsersExceptions;
 using DeliveryServiceDataAccess.Entities;
 using DeliveryServiceDL.Entity;
-using DeliveryServiceDL.User.Exceptions;
 
 namespace DeliveryServiceDL.User.Manager;
 
-public class UsersManager : IUsersManager
+public class UsersManager (
+    IRepository<DeliveryServiceDataAccess.Entities.User> usersRepository,
+    IRepository<PermissionEntity> permissionsRepository,
+    IMapper mapper)
+    : IUsersManager
 {
     private readonly IRepository<DeliveryServiceDataAccess.Entities.User> _usersRepository;
     private readonly IMapper _mapper;
 
-    public UsersManager(IRepository<DeliveryServiceDataAccess.Entities.User> usersRepository, IMapper mapper)
+    public UserModel UpdateUsersPermissions(int id, UpdateUsersPermissionsModel updateModel)
     {
-        _usersRepository = usersRepository;
-        _mapper = mapper;
+        var entity = usersRepository.GetById(id);
+        if (entity is null)
+            throw new UserNotFoundException("Такого пользователя не существует");
+
+        var permissions = new List<PermissionEntity>();
+        foreach (var permissionId in updateModel.Permissions)
+        {
+            var permissionEntity = permissionsRepository.GetById(permissionId);
+            if (permissionEntity is not null)
+                permissions.Add(permissionEntity);
+        }
+
+        if (permissions.Count == 0)
+            throw new PermissionNotFoundException("Таких прав доступа не существует");
+
+        entity.Permissions = permissions;
+        entity = usersRepository.Save(entity);
+        return mapper.Map<UserModel>(entity);
     }
-    
+
+
+
     public UserModel CreateUser(CreateUserModel createModel)
     {
         var entity = _mapper.Map<DeliveryServiceDataAccess.Entities.User>(createModel);

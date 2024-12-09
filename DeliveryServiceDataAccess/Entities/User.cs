@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Identity;
 
 namespace DeliveryServiceDataAccess.Entities;
 
@@ -14,4 +15,8 @@ public class User : BaseEntity
        
        public  ICollection<Review>? Reviews { get; set; }
        public ICollection<Order>? Orders { get; set; }
+       
+       public List<PermissionEntity> Permissions { get; set; }
 }
+public class UserRoleEntity : IdentityRole<int>
+{}
