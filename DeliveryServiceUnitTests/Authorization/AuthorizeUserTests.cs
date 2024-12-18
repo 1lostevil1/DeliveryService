@@ -47,8 +47,8 @@ public class AuthorizeUserTests : ServiceTestsBase
     [Test]
     public async Task AuthorizeWithoutRegistrationTest()
     {
-        const string userName = "Ab0b_a";
-        const string password = "abOba_0321";
+        const string userName = "Abc;
+        const string password = "0321";
         
         const string query = $"?username={userName}"
                              + $"&password={password}";
@@ -65,12 +65,12 @@ public class AuthorizeUserTests : ServiceTestsBase
     {
         var registerUserModel = new RegisterUserModel
         {
-            UserName = "Ab0b_a",
-            Password = "abOba_0321",
+            UserName = "Abc",
+            Password = "0321",
             PassportSeries = 8989,
             PassportNumber = 898989,
             PhoneNumber = "+78981112233",
-            Email = "abobovich@gmail.com",
+            Email = "yakob@gmail.com",
             Name = "Bob",
             Surname = "Smith",
             Patronymic = null,
